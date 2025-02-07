@@ -65,13 +65,18 @@ app.post("/delete", async (req, res) => {
     if (!url) return res.status(400).json({ error: "No URL provided" });
 
     const public_id = extractPublicId(url);
-    const result = await cloudinary.uploader.destroy(public_id, { resource_type: "auto" });
+    console.log("Extracted Public ID:", public_id); // Debugging log
+
+    const result = await cloudinary.uploader.destroy(public_id);
+    console.log("Cloudinary Response:", result); // Debugging log
 
     res.json(result);
   } catch (error) {
+    console.error("Delete Error:", error); // Log full error
     res.status(500).json({ error: "Delete failed", details: error.message });
   }
 });
+
 
 // Start Server
 const PORT = process.env.PORT || 5000;
